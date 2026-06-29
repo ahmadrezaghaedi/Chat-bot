@@ -1,4 +1,6 @@
-import requests,time,json
+import requests,time,json,threading
+from http.server import HTTPServer, BaseHTTPRequestHandler
+import os
 
 B="8455396477:AAEX0S9wL5Jh6y70ZaGUx83HCMY0eRYDM8w"
 A=8822316542
@@ -7,6 +9,18 @@ E="https://t.me/RayniStorm"
 F=f"https://api.telegram.org/bot{B}"
 USERS={}
 CHATS={}
+
+class H(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write(b"Bot Running!")
+
+def WS():
+    port=int(os.environ.get('PORT',8000))
+    HTTPServer(('0.0.0.0',port), H).serve_forever()
+
+threading.Thread(target=WS, daemon=True).start()
 
 def LD():
     global USERS,CHATS
